@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="lv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pork — 2. forma</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="wrapper">
+  <aside class="side">
+    <div class="brand">
+      <h1>Esi sveicināts<br><b>PORK</b></h1>
+      <p>Tavas laboratorijas uzskaites sistēma</p>
+      <img src="hero.jpg" alt="Laboratorija" />
+    </div>
+  </aside>
+
+  <main class="main">
+    <a class="small-link" href="index.html">← Atpakaļ uz sākumlapu</a>
+
+    <h2 class="title">Pieslēgties</h2>
+    <p class="subtitle">Ķīmijas laboratorijas uzskaites sistēmai</p>
+
+    <div class="form">
+      <div class="field">
+        <label class="label" for="login">Lietotājvārds</label>
+        <input class="input" id="login" type="text" placeholder="Ievadi lietotājvārdu" />
+      </div>
+
+      <div class="field">
+        <label class="label" for="pass">Parole</label>
+        <input class="input" id="pass" type="password" placeholder="Ievadi paroli" />
+      </div>
+
+      <button class="btn primary" onclick="backHome()">Pieslēgties</button>
+
+      <p style="margin-top:14px; color:var(--muted); font-size:13px;">
+        Neesi vēl reģistrēts? <span style="color:var(--green-dark);">Izveidot profilu</span>
+      </p>
+    </div>
+  </main>
+</div>
+
+<button class="report">Ziņot par kļūdu</button>
+</body>
+</html>

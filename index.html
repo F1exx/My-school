@@ -1,80 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="lv">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Ziemas krājumu veidošana</title>
-  </head>
-  <body>
-    <h1>Ziemas krājumu veidošana</h1>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pork — 1. forma</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-    <p>Šogad bija laba ābolu raža, un vecvecāki gatavojas vārīt ievārījumu</p>
+<div class="wrapper">
+  <aside class="side">
+    <div class="brand">
+      <h1>Esi sveicināts<br><b>PORK</b></h1>
+      <p>Tavas laboratorijas uzskaites sistēma</p>
+      <img src="hero.jpg" alt="Laboratorija" />
+    </div>
+    <div style="opacity:.85; font-size:13px;">
+      Versija: skolas darbs
+    </div>
+  </aside>
 
-    <h2>Receptes idejas
-    </h2>
-    <ul>
-      <li>Ābolu piragss</li>
-      <li>Ogu kompots</li>
-    </ul>
-<h3>
- Ābolu pīrāga recepte
-</h3>
-<table border="1">
-  <tr>
-    <th> Sastāvdaļas </th>
-    <th> Daudzums </th>
-  </tr>
-  <tr>
-    <td> Āboli </td>
-    <td> 1 kilograms </td>
-  </tr>
-  <tr>
-    <td> Cukurs </td>
-    <td> 200 grami </td>
-  </tr>
-  <tr>
-    <td> Cukurs </td>
-    <td> 1 glāze </td>
-  </tr>
-  <tr>
-    <td> Ola </td>
-    <td> 3 gabali </td>
-  </tr>
-  <tr>
-    <td> Sviests </td>
-    <td> 100 g </td>
-  </tr>
-    </table>
-<h3> Kompota recepte
-</h3>
-    <table border="1">
-        <tr>
-            <th> Sastāvdaļas </th>
-            <th> Daudzums </th>
-        </tr>
-        <tr>
-            <td> Krustuogles </td>
-            <td> 70 g </td>
-        </tr>
-        <tr>
-            <td> Ķiršīs </td>
-            <td> 70g </td>
-        </tr>
-        <tr>
-            <td> Melnie jāņogas </td>
-            <td> 70 g </td>
-        </tr>
-        <tr>
-            <td> Sarkanās jāņogas </td>
-            <td> 100 g </td>
-        </tr>
-        <tr>
-            <td> Cukurs </td>
-            <td> 130g </td>
-        </tr>
-        <tr>
-            <td> Ūdens </td>
-            <td> 1 litrs </td>
-        </tr>
-        </table>
-  </body>
+  <main class="main">
+    <h2 class="title">Ko Tu vēlies darīt šodien?</h2>
+    <p class="subtitle">
+      Piekļūsti savas skolas laboratorijai vai aplūko publiski pieejamo informāciju un datus par laboratoriju.
+    </p>
+
+    <div class="buttons">
+      <button class="btn primary" onclick="goLogin()">Pieslēgties</button>
+      <button class="btn" onclick="goPublic()">Piekļūt publiskiem datiem</button>
+    </div>
+  </main>
+</div>
+
+<button class="report">Ziņot par kļūdu</button>
+
+<script>
+  function goLogin() {
+    window.location.href = "login.html";
+  }
+  function goPublic() {
+    window.location.href = "public.html";
+  }
+</script>
+
+</body>
 </html>
