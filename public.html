@@ -16,10 +16,10 @@
 
   <div class="panel">
     <div class="toolbar">
-      <input class="search" type="text" placeholder="Search" />
-      <button class="btn primary">Rādīt visu</button>
-      <button class="btn">Rādīt vielas</button>
-      <button class="btn">Rādīt aprīkojumu</button>
+      <input id="search" class="search" type="text" placeholder="Search" />
+      <button id="btnAll" class="btn primary" type="button">Rādīt visu</button>
+      <button id="btnVielas" class="btn" type="button">Rādīt vielas</button>
+      <button id="btnInv" class="btn" type="button">Rādīt aprīkojumu</button>
     </div>
 
     <table class="table">
@@ -34,40 +34,133 @@
           <th>Komentāri</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>KLD427724</td>
-          <td>Katalizators</td>
-          <td>Aprīkojums</td>
-          <td>Trauks</td>
-          <td>23</td>
-          <td>-</td>
-          <td>Daži komentāri</td>
-        </tr>
-        <tr>
-          <td>KLD427733</td>
-          <td>Birete</td>
-          <td>Aprīkojums</td>
-          <td>Trauks</td>
-          <td>20</td>
-          <td>-</td>
-          <td>Daži komentāri</td>
-        </tr>
-        <tr>
-          <td>KLD427742</td>
-          <td>HCl</td>
-          <td>Viela</td>
-          <td>Skābe</td>
-          <td>19</td>
-          <td>40</td>
-          <td>Daži komentāri</td>
-        </tr>
+      <tbody id="tbody">
       </tbody>
     </table>
   </div>
 </div>
 
 <button class="report">Ziņot par kļūdu</button>
+
+<script>
+  let allData = [];
+  let currentFilter = "all";
+
+  function setActiveButton(activeId) {
+    document.getElementById("btnAll").classList.remove("primary");
+    document.getElementById("btnVielas").classList.remove("primary");
+    document.getElementById("btnInv").classList.remove("primary");
+    document.getElementById(activeId).classList.add("primary");
+  }
+
+  function makeRow(item) {
+    return `
+      <tr>
+        <td>${item.uid}</td>
+        <td>${item.nosaukums || "-"}</td>
+        <td>${item.tips || "-"}</td>
+        <td>${item.apakstips || "-"}</td>
+        <td>${item.skaits ?? "-"}</td>
+        <td>${item.svars || "-"}</td>
+        <td>${item.komentari || ""}</td>
+      </tr>
+    `;
+  }
+
+  function renderTable(list) {
+    const tbody = document.getElementById("tbody");
+    let html = "";
+    for (let i = 0; i < list.length; i++) {
+      html += makeRow(list[i]);
+    }
+    tbody.innerHTML = html;
+  }
+
+  function applyFilters() {
+    const q = document.getElementById("search").value.toLowerCase().trim();
+
+    let filtered = allData;
+
+    if (currentFilter === "vielas") {
+      filtered = filtered.filter(x => x.cat === "vielas");
+    } else if (currentFilter === "inv") {
+      filtered = filtered.filter(x => x.cat === "inv");
+    }
+
+    if (q !== "") {
+      filtered = filtered.filter(x => {
+        const a = (x.nosaukums || "").toLowerCase();
+        const b = (x.tips || "").toLowerCase();
+        const c = (x.apakstips || "").toLowerCase();
+        return a.includes(q) || b.includes(q) || c.includes(q);
+      });
+    }
+
+    renderTable(filtered);
+  }
+
+  async function loadData() {
+    const vielasResp = await fetch("vielas.json");
+    const invResp = await fetch("inventars.json");
+
+    const vielas = await vielasResp.json();
+    const inv = await invResp.json();
+
+    const vielasMapped = vielas.map(v => {
+      return {
+        cat: "vielas",
+        uid: "V-" + v.id,
+        nosaukums: v.nosaukums,
+        tips: v.tips,
+        apakstips: v.apakstips,
+        skaits: v.skaits,
+        svars: (v.daudzums != null && v.mervienibas) ? (v.daudzums + " " + v.mervienibas) : "-",
+        komentari: v.komentari || ""
+      };
+    });
+
+    const invMapped = inv.map(it => {
+      return {
+        cat: "inv",
+        uid: "I-" + it.id,
+        nosaukums: it.nosaukums,
+        tips: it.tips,
+        apakstips: it.apakstips,
+        skaits: it.skaits,
+        svars: "-",
+        komentari: it.komentari || ""
+      };
+    });
+
+    allData = vielasMapped.concat(invMapped);
+
+    applyFilters();
+  }
+
+  document.getElementById("btnAll").addEventListener("click", function () {
+    currentFilter = "all";
+    setActiveButton("btnAll");
+    applyFilters();
+  });
+
+  document.getElementById("btnVielas").addEventListener("click", function () {
+    currentFilter = "vielas";
+    setActiveButton("btnVielas");
+    applyFilters();
+  });
+
+  document.getElementById("btnInv").addEventListener("click", function () {
+    currentFilter = "inv";
+    setActiveButton("btnInv");
+    applyFilters();
+  });
+
+  document.getElementById("search").addEventListener("input", function () {
+    applyFilters();
+  });
+
+  loadData();
+</script>
 
 </body>
 </html>
